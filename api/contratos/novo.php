@@ -28,7 +28,7 @@
         $contrato->valor_iptu= $dados->valor_iptu;
         try {                        
           if ($contrato->novo()){
-              http_response_code(201);
+              http_response_code(200);
               echo json_encode(array("mensagem" => "Registro efetuado com sucesso!"));
           
         }else {
@@ -40,7 +40,7 @@
             echo json_encode(array("mensagem" => $e));
         }
     } else {
-        http_response_code(400);
+        
         echo json_encode(array("mensagem" => "Dados incompletos. Verifique!"));
     }    
 ?>
