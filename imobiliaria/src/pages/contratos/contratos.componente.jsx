@@ -46,7 +46,7 @@ class Contratos extends React.Component {
     const { contratos } = this.state;
     return (
       <>
-        <div className="imovel">
+        <div className="contrato">
           <h1>Contratos</h1>
           <div className="botao-adicionar">
             <Button href="/contratos/novo">Novo Cadastro</Button>
@@ -65,17 +65,17 @@ class Contratos extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {contratos.map(imovel => {
+              {contratos.map(contrato => {
                 return (
-                  <tr key={imovel.id}>
-                    <td>{imovel.id}</td>
-                    <td>{imovel.nome_proprietario}</td>
-                    <td>{imovel.nome_cliente}</td>
-                    <td>{imovel.endereco}</td>
-                    <td>{new Date(imovel.data_inicio).toLocaleDateString()}</td>
-                    <td>{new Date(imovel.data_final).toLocaleDateString()}</td>
+                  <tr key={contrato.id}>
+                    <td>{contrato.id}</td>
+                    <td>{contrato.nome_proprietario}</td>
+                    <td>{contrato.nome_cliente}</td>
+                    <td>{contrato.endereco}</td>
+                    <td>{new Date(contrato.data_inicio).toLocaleDateString()}</td>
+                    <td>{new Date(contrato.data_final).toLocaleDateString()}</td>
                     <td>
-                      {parseFloat(imovel.valor_aluguel).toLocaleString(
+                      {parseFloat(contrato.valor_aluguel).toLocaleString(
                         "pt-br",
                         {
                           style: "currency",
@@ -87,28 +87,23 @@ class Contratos extends React.Component {
                       <Container>
                         <Row>                          
                           <Col xs lg="3">
-                            <Button href={`/contratos/editar/${imovel.id}`}>
+                            <Button href={`/contratos/editar/${contrato.id}`}>
                               Editar
                             </Button>
                           </Col>
                           <Col xs lg="3">
                             <DialogConfirmacao
                               titulo="Excluir"
-                              mensagem="Confirmar exclusão do imovel? Ao confirmar todas as mensalidades serão excluidas."
+                              mensagem="Confirmar exclusão do contrato? Ao confirmar todas as mensalidades serão excluidas."
                               handleDelete={this.excluiContrato}
-                              id={imovel.id}
+                              id={contrato.id}
                             />
                           </Col>
                           <Col xs lg="3">
-                            <Button href={`/mensalidades/${imovel.id}`}>
-                              Mensalidades
+                            <Button href={`/pagamentos/${contrato.id}`}>
+                              Pagamentos
                             </Button>
-                          </Col>
-                          <Col xs lg="3">
-                            <Button href={`/repasses/${imovel.id}`}>
-                              Repasses
-                            </Button>
-                          </Col>
+                          </Col>                    
                         </Row>
                       </Container>
                     </td>

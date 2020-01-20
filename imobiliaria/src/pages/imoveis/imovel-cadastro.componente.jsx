@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Select from "react-select";
 import { Form, Alert, Row, Col, Button } from "react-bootstrap";
+import CampoForm from "../../componentes/campo-form/campo-form.componente";
 
 class CadastroImovel extends React.Component {
   constructor(props) {
@@ -42,12 +43,17 @@ class CadastroImovel extends React.Component {
           exata: "1"
         }
       );
-      const { id, endereco, proprietario_id, nome_proprietario } = dados.data.registros[0];
+      const {
+        id,
+        endereco,
+        proprietario_id,
+        nome_proprietario
+      } = dados.data.registros[0];
       console.log(dados.data.registros[0]);
       this.setState({
         id: id,
         endereco: endereco,
-        proprietario_id: {value: proprietario_id, label: nome_proprietario}
+        proprietario_id: { value: proprietario_id, label: nome_proprietario }
       });
     } catch (e) {
       console.log(e);
@@ -76,28 +82,33 @@ class CadastroImovel extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     console.log(this.state);
-    const {id} = this.state;
-    if (id > 0){
-      const updImovel = await axios.post("http://localhost/desafio-vista/api/imoveis/alterar.php", {
-        id: this.state.id,
-        endereco: this.state.endereco,
-        proprietario_id: this.state.proprietario_id.value
-      });
-      if (updImovel.status === 200){
+    const { id } = this.state;
+    if (id > 0) {
+      const updImovel = await axios.post(
+        "http://localhost/desafio-vista/api/imoveis/alterar.php",
+        {
+          id: this.state.id,
+          endereco: this.state.endereco,
+          proprietario_id: this.state.proprietario_id.value
+        }
+      );
+      if (updImovel.status === 200) {
         this.setState({
           exibeAlerta: true
-        })
+        });
       }
     } else {
-      const novoImovel = await axios.post("http://localhost/desafio-vista/api/imoveis/novo.php",
-      {
-        endereco: this.state.endereco,
-        proprietario_id: this.state.proprietario_id.value
-      });
-      if (novoImovel.status === 200){
+      const novoImovel = await axios.post(
+        "http://localhost/desafio-vista/api/imoveis/novo.php",
+        {
+          endereco: this.state.endereco,
+          proprietario_id: this.state.proprietario_id.value
+        }
+      );
+      if (novoImovel.status === 200) {
         this.setState({
           exibeAlerta: true
-        })
+        });
       }
     }
   }
@@ -140,20 +151,15 @@ class CadastroImovel extends React.Component {
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} controlId="endereco">
-              <Form.Label column sm="2">
-                Endereço
-              </Form.Label>
-              <Col sm="10">
-                <Form.Control
-                  type="text"
-                  placeholder="Endereço do cliente"
-                  value={endereco}
-                  required
-                  onChange={this.handleChange}
-                />
-              </Col>
-            </Form.Group>
+            <CampoForm
+              label="Endereço"
+              idComp="endereco"
+              placeHolder="Endereço do cliente"
+              valor={endereco}
+              handleChange={this.handleChange}
+              tipoCampo="text"
+              required
+            />
 
             <Button type="submit">Salvar</Button>
           </Form>

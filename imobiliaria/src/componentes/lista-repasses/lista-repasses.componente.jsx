@@ -2,22 +2,22 @@ import React from "react";
 import {Table, Row, Col, Button, Container} from "react-bootstrap";
 import DialogConfirmacao from "../dialogo-confirmacao/dialogo-confirmacao.componente";
 
-const ListaMensalidades = ({dados, handleSubmit}) => (
+const ListaRepasses = ({dados, handleSubmit}) => (
     <Table>
             <thead>
               <tr>
                 <td>Valor</td>
-                <td>Vencimento</td>
+                <td>Mês Referência</td>
                 <td>Situacao</td>                
                 <td></td>
               </tr>
             </thead>
             <tbody>
-              {dados.map(mensalidade => {
+              {dados.map(repasse => {
                 return (
-                  <tr key={mensalidade.id}>                                                
+                  <tr key={repasse.id}>                                                
                     <td>
-                      {parseFloat(mensalidade.valor).toLocaleString(
+                      {parseFloat(repasse.valor).toLocaleString(
                         "pt-br",
                         {
                           style: "currency",
@@ -25,18 +25,18 @@ const ListaMensalidades = ({dados, handleSubmit}) => (
                         }
                       )}
                     </td>
-                    <td>{new Date(mensalidade.data_vencimento).toLocaleDateString()}</td>
-                    <td>{ mensalidade.recebido === "1" ? "Recebido" : "A Receber"}</td>
+                    <td>{repasse.mes_referencia}</td>
+                    <td>{ repasse.repassado === "1" ? "Repassado" : "A Repassar"}</td>
                     <td>
-                    { mensalidade.recebido === "0" ? (
+                    { repasse.repassado === "0" ? (
                       <Container>
                         <Row>                                                    
                           <Col xs lg="3">
                             <DialogConfirmacao
                               titulo="Receber"
-                              mensagem="Confirmar o recebimento"
+                              mensagem="Confirmar o repasse"
                               handleDelete={handleSubmit}
-                              id={mensalidade.id}
+                              id={repasse.id}
                             />
                             
                           </Col>                          
@@ -51,4 +51,4 @@ const ListaMensalidades = ({dados, handleSubmit}) => (
           </Table>
 );
 
-export default ListaMensalidades;
+export default ListaRepasses;

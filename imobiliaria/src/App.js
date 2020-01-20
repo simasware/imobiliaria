@@ -9,6 +9,7 @@ import Imoveis from "./pages/imoveis/imoveis.componente";
 import CadastroImovel from "./pages/imoveis/imovel-cadastro.componente";
 import Contratos from "./pages/contratos/contratos.componente";
 import CadastroContrato from "./pages/contratos/cadastro-contrato.componente";
+import Pagamentos from "./pages/pagamentos/pagamentos.componente";
 
 
 import "./App.css";
@@ -30,6 +31,8 @@ function App() {
         <Route exact path="/contratos" component={Contratos}/>
         <Route exact path="/contratos/novo" component={CadastroContrato}/>
         <Route exact path="/contratos/editar/:id" component={CadastroContrato}/>
+        <Route exact path="/pagamentos/:id" component={Pagamentos}/>
+
       </Switch>
       
     </div>

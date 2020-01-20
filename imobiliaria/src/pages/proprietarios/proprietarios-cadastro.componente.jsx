@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Form, Alert, Row, Col, Button } from "react-bootstrap";
+import CampoForm from "../../componentes/campo-form/campo-form.componente";
 
 class CadastroProprietario extends React.Component {
   constructor(props) {
@@ -106,67 +107,41 @@ class CadastroProprietario extends React.Component {
         )}
         <h3>Proprietário</h3>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group as={Row} controlId="nome">
-            <Form.Label column sm="2">
-              Nome
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                placeholder="Nome do cliente"
-                value={nome}
-                type="text"
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} controlId="telefone">
-            <Form.Label column sm="2">
-              Endereço
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="text"
-                placeholder="Endereço do cliente"
-                value={telefone}
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} controlId="email">
-            <Form.Label column sm="2">
-              e-mail
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="email"
-                placeholder="e-mail do cliente"
-                value={email}
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} controlId="dia_repasse">
-            <Form.Label column sm="2">
-              Dia de repasse
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="number"
-                placeholder="Dia de repasse"
-                value={dia_repasse}
-                onChange={this.handleChange}
-                required
-                min={1}
-                max={31}
-              />
-            </Col>
-          </Form.Group>
+          <CampoForm
+            label="Nome"
+            idComp="nome"
+            placeHolder="Nome do proprietário"
+            valor={nome}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+          />
+          <CampoForm
+            label="Telefone"
+            idComp="telefone"
+            placeHolder="Telefone do proprietário"
+            valor={telefone}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+          />
+          <CampoForm
+            label="e-mail"
+            idComp="email"
+            placeHolder="e-mail do proprietário"
+            valor={email}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+            required
+          />
+          <CampoForm
+            label="Dia de Repasse"
+            idComp="dia_repasse"
+            placeHolder="Dia de repasse"
+            valor={dia_repasse}
+            handleChange={this.handleChange}
+            tipoCampo="number"
+            required
+            otherProps={{min: 1, max: 31}}
+          />
           <Button type="submit">Salvar</Button>
         </Form>
       </div>

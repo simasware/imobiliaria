@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import CampoForm from "../../componentes/campo-form/campo-form.componente";
 
 class CadastroCliente extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class CadastroCliente extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { id } = this.state;    
+    const { id } = this.state;
     if (id > 0) {
       const params = {
         id: this.state.id,
@@ -60,9 +61,9 @@ class CadastroCliente extends React.Component {
             "Content-Type": "application/json"
           }
         }
-      );      
+      );
       if (updCliente.status === 200) {
-        this.setState({exibeAlerta: true});
+        this.setState({ exibeAlerta: true });
       }
     } else {
       const params = {
@@ -77,10 +78,10 @@ class CadastroCliente extends React.Component {
           headers: {
             "Content-Type": "application/json"
           }
-        }        
+        }
       );
       if (updCliente.status === 200) {
-        this.setState({exibeAlerta: true});
+        this.setState({ exibeAlerta: true });
       }
     }
   }
@@ -94,11 +95,16 @@ class CadastroCliente extends React.Component {
   };
 
   render() {
-    const { nome, endereco, email, exibeAlerta } = this.state;    
-    return (      
+    const { nome, endereco, email, exibeAlerta } = this.state;
+    return (
       <div className="form-cadastro">
-        { exibeAlerta ? (
-          <Alert key="1" variant="success" dismissible={true} onClose={() => this.setState({exibeAlerta: false})}>
+        {exibeAlerta ? (
+          <Alert
+            key="1"
+            variant="success"
+            dismissible={true}
+            onClose={() => this.setState({ exibeAlerta: false })}
+          >
             Ação finalizada com sucesso!
           </Alert>
         ) : (
@@ -106,50 +112,34 @@ class CadastroCliente extends React.Component {
         )}
         <h3>Cliente</h3>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group as={Row} controlId="nome">
-            <Form.Label column sm="2">
-              Nome
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                placeholder="Nome do cliente"
-                value={nome}
-                type="text"
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
+          <CampoForm
+            label="Nome"
+            idComp="nome"
+            placeHolder="Nome do cliente"
+            valor={nome}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+            required
+          />
 
-          <Form.Group as={Row} controlId="endereco">
-            <Form.Label column sm="2">
-              Endereço
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="text"
-                placeholder="Endereço do cliente"
-                value={endereco}
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group as={Row} controlId="email">
-            <Form.Label column sm="2">
-              e-mail
-            </Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="email"
-                placeholder="e-mail do cliente"
-                value={email}
-                required
-                onChange={this.handleChange}
-              />
-            </Col>
-          </Form.Group>
+          <CampoForm
+            label="Endereço"
+            idComp="endereco"
+            placeHolder="Endereço do cliente"
+            valor={endereco}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+            required
+          />
+          <CampoForm
+            label="e-mail"
+            idComp="email"
+            placeHolder="e-mail do cliente"
+            valor={email}
+            handleChange={this.handleChange}
+            tipoCampo="text"
+            required
+          />
           <Button type="submit">Salvar</Button>
         </Form>
       </div>
