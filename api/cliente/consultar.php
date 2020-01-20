@@ -40,7 +40,7 @@
             echo json_encode(array("mensagem" => "Nenhum registro encontrado."));
         }
     } else {
-        http_response_code(404);
+        http_response_code(200);
         echo json_encode(array("mensagem" => "Consulta mal formada"));
     }
            

@@ -33,33 +33,46 @@
         }        
 
         function novo(){
-            $sql = "insert into ". $this->tabela . "
-                        (id,proprietario_id,cliente_id,imovel_id,data_inicio,data_final,taxa_administracao,valor_aluguel,
-                        valor_condominio,valor_iptu) values (:id,:proprietario_id,:cliente_id,:imovel_id,:data_inicio,:data_final,
-                        :taxa_administracao,:valor_aluguel,:valor_condominio,:valor_iptu)";
-            $resultado = $this->conexao->prepare($sql);
-
-            $this->sanitiza();
-
-            $resultado->bindParam(":proprietario_id", $this->proprietario_id);                
-            $resultado->bindParam(":cliente_id", $this->cliente_id);                          
-            $resultado->bindParam(":imovel_id", $this->imovel_id);                            
-            $resultado->bindParam(":data_inicio", $this->data_inicio);                        
-            $resultado->bindParam(":data_final", $this->data_final);                          
-            $resultado->bindParam(":taxa_administracao", $this->taxa_administracao);          
-            $resultado->bindParam(":valor_aluguel", $this->valor_aluguel);                    
-            $resultado->bindParam(":valor_condominio", $this->valor_condominio);              
-            $resultado->bindParam(":valor_iptu", $this->valor_iptu); 
-
-            if ($resultado->execute()){
-                return true;
+            try{
+              $sql = "insert into ". $this->tabela . "
+                          (proprietario_id,cliente_id,imovel_id,data_inicio,data_final,taxa_administracao,valor_aluguel,
+                          valor_condominio,valor_iptu) values (:proprietario_id,:cliente_id,:imovel_id,:data_inicio,:data_final,
+                          :taxa_administracao,:valor_aluguel,:valor_condominio,:valor_iptu)";
+              $resultado = $this->conexao->prepare($sql);
+  
+              $this->sanitiza();
+  
+              $resultado->bindParam(":proprietario_id", $this->proprietario_id);                
+              $resultado->bindParam(":cliente_id", $this->cliente_id);                          
+              $resultado->bindParam(":imovel_id", $this->imovel_id);                            
+              $resultado->bindParam(":data_inicio", $this->data_inicio);                        
+              $resultado->bindParam(":data_final", $this->data_final);                          
+              $resultado->bindParam(":taxa_administracao", $this->taxa_administracao);          
+              $resultado->bindParam(":valor_aluguel", $this->valor_aluguel);                    
+              $resultado->bindParam(":valor_condominio", $this->valor_condominio);              
+              $resultado->bindParam(":valor_iptu", $this->valor_iptu); 
+  
+              if ($resultado->execute()){
+                  return true;
+              }
+            }catch(Exception $e){
+            echo $e;
             }
 
             return false;
         }
 
         function atualiza(){
-            $sql = "update ". $this->tabela . "  set nome = :nome, email = :email, telefone = :telefone, dia_repasse = :dia_repasse where id = :id";
+            $sql = "update ". $this->tabela . "  set proprietario_id = :proprietario_id,
+                    cliente_id = :cliente_id,
+                    imovel_id = :imovel_id,
+                    data_inicio = :data_inicio,
+                    data_final = :data_final,
+                    taxa_administracao = :taxa_administracao,
+                    valor_aluguel = :valor_aluguel,
+                    valor_condominio = :valor_condominio,
+                    valor_iptu = :valor_iptu 
+                    where id = :id";
             $resultado = $this->conexao->prepare($sql);
             $this->sanitiza();
             $resultado->bindParam(":id", $this->id);                                     
@@ -103,6 +116,30 @@
                         cliente cl ON (cl.id = ct.cliente_id) JOIN
                         imovel im ON (im.id = ct.imovel_id)";            
             $resultado = $this->conexao->prepare($sql);                        
+            $resultado->execute();
+
+            return $resultado;
+
+        }
+        
+        function consultar($campo, $valor, $exata){ 
+            $sql = "SELECT
+                        ct.*,	
+                        pp.nome AS nome_proprietario,	
+                        cl.nome AS nome_cliente,	
+                        im.endereco
+                    FROM
+                        contrato ct JOIN
+                        proprietario pp ON (pp.id = ct.proprietario_id) JOIN
+                        cliente cl ON (cl.id = ct.cliente_id) JOIN
+                        imovel im ON (im.id = ct.imovel_id)";   
+            if ($exata === "1"){                
+                $sql .= " where ct." . $campo . " = :valor";                                    
+            } else {                
+                $sql .= " where ct." . $campo . " like :valor";                                    
+            }             
+            $resultado = $this->conexao->prepare($sql);  
+            $resultado->bindParam(":valor", $valor);                      
             $resultado->execute();
 
             return $resultado;

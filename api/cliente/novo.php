@@ -29,7 +29,7 @@
             echo json_encode(array("mensagem" => "Nao foi possivel efetuar o registro"));
         }
     } else {        
-        http_response_code(400);
+        http_response_code(200);
         echo json_encode(array("mensagem" => "Dados incompletos. Verifique!"));
     }
 

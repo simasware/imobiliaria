@@ -68,14 +68,14 @@
 
         function consulta($campo, $valor, $exata){            
             $sql = "SELECT im.*, pr.nome AS nome_proprietario FROM ". $this->tabela . "  im JOIN proprietario pr ON (pr.id = im.proprietario_id)";
-            if ($exata === 1){                
-                $sql .= " where " . $campo . " = :valor";                                    
+            if ($exata === "1"){                
+                $sql .= " where im." . $campo . " = :valor";                                    
             } else {                
-                $sql .= " where " . $campo . " like :valor";                                    
+                $sql .= " where im." . $campo . " like :valor";                                    
             }            
             $resultado = $this->conexao->prepare($sql);            
             $valor = htmlspecialchars(strip_tags($valor));
-            if ($exata !== 1){
+            if ($exata !== "1"){
                 $valor = "%{$valor}%";
             }            
             $resultado->bindParam(":valor", $valor);               
